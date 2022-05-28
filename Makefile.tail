@@ -1,0 +1,62 @@
+##### End of variables to change
+
+LIVEMEDIA_DIR = liveMedia
+GROUPSOCK_DIR = groupsock
+USAGE_ENVIRONMENT_DIR = UsageEnvironment
+BASIC_USAGE_ENVIRONMENT_DIR = BasicUsageEnvironment
+
+TESTPROGS_DIR = testProgs
+
+MEDIA_SERVER_DIR = mediaServer
+
+PROXY_SERVER_DIR = proxyServer
+
+HLS_PROXY_DIR = hlsProxy
+
+GADEPS = ./gadeps
+LIVE555DIR = .
+
+all:
+	cd $(LIVEMEDIA_DIR) ; $(MAKE)
+	cd $(GROUPSOCK_DIR) ; $(MAKE)
+	cd $(USAGE_ENVIRONMENT_DIR) ; $(MAKE)
+	cd $(BASIC_USAGE_ENVIRONMENT_DIR) ; $(MAKE)
+	cd $(TESTPROGS_DIR) ; $(MAKE)
+	cd $(MEDIA_SERVER_DIR) ; $(MAKE)
+	cd $(PROXY_SERVER_DIR) ; $(MAKE)
+	cd $(HLS_PROXY_DIR) ; $(MAKE)
+	@echo
+	@echo "For more information about this source code (including your obligations under the LGPL), please see our FAQ at http://live555.com/liveMedia/faq.html"
+	-mkdir -p $(GADEPS)/$(TARGET)/lib
+	find $(LIVE555DIR) -name '*.a' -exec cp -f {} $(GADEPS)/$(TARGET)/lib \;
+	-mkdir -p $(GADEPS)/$(TARGET)/include/live555
+	find $(LIVE555DIR) -name '*.hh' -exec cp -f {} $(GADEPS)/$(TARGET)/include/live555 \;
+	cp -f $(LIVE555DIR)/groupsock/include/NetCommon.h $(GADEPS)/$(TARGET)/include/live555
+
+install:
+	cd $(LIVEMEDIA_DIR) ; $(MAKE) install
+	cd $(GROUPSOCK_DIR) ; $(MAKE) install
+	cd $(USAGE_ENVIRONMENT_DIR) ; $(MAKE) install
+	cd $(BASIC_USAGE_ENVIRONMENT_DIR) ; $(MAKE) install
+	cd $(TESTPROGS_DIR) ; $(MAKE) install
+	cd $(MEDIA_SERVER_DIR) ; $(MAKE) install
+	cd $(PROXY_SERVER_DIR) ; $(MAKE) install
+	cd $(HLS_PROXY_DIR) ; $(MAKE) install
+
+clean:
+	cd $(LIVEMEDIA_DIR) ; $(MAKE) clean
+	cd $(GROUPSOCK_DIR) ; $(MAKE) clean
+	cd $(USAGE_ENVIRONMENT_DIR) ; $(MAKE) clean
+	cd $(BASIC_USAGE_ENVIRONMENT_DIR) ; $(MAKE) clean
+	cd $(TESTPROGS_DIR) ; $(MAKE) clean
+	cd $(MEDIA_SERVER_DIR) ; $(MAKE) clean
+	cd $(PROXY_SERVER_DIR) ; $(MAKE) clean
+	cd $(HLS_PROXY_DIR) ; $(MAKE) clean
+
+distclean: clean
+	-rm -f $(LIVEMEDIA_DIR)/Makefile $(GROUPSOCK_DIR)/Makefile \
+	  $(USAGE_ENVIRONMENT_DIR)/Makefile $(BASIC_USAGE_ENVIRONMENT_DIR)/Makefile \
+	  $(TESTPROGS_DIR)/Makefile $(MEDIA_SERVER_DIR)/Makefile \
+	  $(PROXY_SERVER_DIR)/Makefile \
+	  $(HLS_PROXY_DIR)/Makefile \
+	  Makefile
